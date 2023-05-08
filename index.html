@@ -35,6 +35,7 @@
         function reset(){
             quadrados = []
             velocidade = 2
+            pontuacao = 0
 
         }
 
@@ -58,7 +59,7 @@
             rodadas+=1;
             console.log(rodadas)
             if(rodadas == 70 - fator){
-                quadrados.push(new quadrado(100, Math.floor(Math.random()*canvas.width), Math.floor(Math.random()*canvas.height)))
+                quadrados.push(new quadrado(100, Math.floor(Math.random()*(canvas.width-200)), Math.floor(Math.random()*(canvas.height-100))))
                 
                 rodadas = 0
                 velocidade += 0.3
@@ -90,10 +91,10 @@
                     var q = quadrados[i]
                     q.update()
                     context.fillStyle = "white"
-                    context.drawImage(flamengo, q.pX, q.pY, 50, 50)
+                    context.drawImage(flamengo, q.pX, q.pY, 90, 90)
                     console.log("AAAAAAAAAAAAAAAAAA"+q._px)
-                    if(((px >= q.pX && px <= q.pX+70) || (px+70 >=  q.pX && px+70 <= q.pX))
-                    &&  ((py <= q.pY+70 && py >= q.pY) || (py+70 >= q.pY && py+70 <= q.pY+70))){
+                    if(((px >= q.pX && px <= q.pX+90) || (px+70 >=  q.pX && px+90 <= q.pX))
+                    &&  ((py <= q.pY+90 && py >= q.pY) || (py+70 >= q.pY && py+90 <= q.pY+90))){
                         objetosDeletar.push(i)
                         pontuacao++
                         if(pontuacao%5 == 0){
@@ -122,11 +123,11 @@
             }
 
             update(){
-                if(this.pX > px && this.pX+velocidade+70 < canvas.width)
+                if(this.pX > px && this.pX+velocidade+90 < canvas.width)
                     this.pX+=velocidade;
                 else if(this.pX < px && this.pX+velocidade > 0)
                     this.pX -= velocidade;
-                if(this.pY > py && this.pY+velocidade+70 < canvas.height)
+                if(this.pY > py && this.pY+velocidade+90 < canvas.height)
                     this.pY += velocidade;
                 else if(this.pY < py && this.pY+velocidade-20 > 0)
                     this.pY -= velocidade
