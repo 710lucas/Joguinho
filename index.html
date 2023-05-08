@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>joguinho</title>
+    </head>
+
+    <body style="background-color: black;">
+        
+            <canvas width="500" height="300" id="canvas" >
+                
+            </canvas>
+        
+
+        
+    </body>
+
+    <script>
+        var px, py;
+
+        addEventListener("mousemove", function t(p){px=p.pageX; py = p.pageY;}, false)
+        var canvas = document.getElementById("canvas");
+
+        window.requestAnimationFrame(gameLoop)
+
+        var flamengo = new Image();
+        flamengo.src = "https://i.bleacherreport.net/images/team_logos/328x328/flamengo.png"
+
+        var quadrados = []
+        var rodadas = 0
+        var velocidade = 2
+
+        function reset(){
+            quadrados = []
+            velocidade = 2
+
+        }
+
+        function gameLoop(){
+            for(var i = 0; i<10000000; i++){
+                
+            }
+            if(canvas.getContext)
+                canvas.getContext('2d').fillRect(0,0,canvas.width, canvas.height)
+                console.log("lol")
+            draw()
+            console.log("lal")
+            
+            
+            window.requestAnimationFrame(gameLoop)
+        }
+
+        function draw(){
+            rodadas+=1;
+            console.log(rodadas)
+            if(rodadas == 100){
+                quadrados.push(new quadrado(100, Math.floor(Math.random()*canvas.width), Math.floor(Math.random()*canvas.height)))
+                
+                rodadas = 0
+                velocidade += 0.1
+            }
+            console.log(quadrados.length)
+            
+
+            canvas.width = window.innerWidth
+            canvas.height = window.innerHeight
+            var vasco = new Image()
+            vasco.src="https://static.vasco.com.br/wp-content/uploads/2021/09/ESCUDO-VASCO-RGB.png"
+            if(canvas.getContext){
+                var context = canvas.getContext('2d')
+                context.fillStyle = "white"
+                
+                for(var i = 0; i<quadrados.length; i++){
+                    var q = quadrados[i]
+                    q.update()
+                    context.fillStyle = "white"
+                    context.drawImage(flamengo, q.pX, q.pY, 50, 50)
+                    console.log("AAAAAAAAAAAAAAAAAA"+q._px)
+                    if(((px >= q.pX && px <= q.pX+70) || (px+70 >=  q.pX && px+70 <= q.pX))
+                    &&  ((py <= q.pY+70 && py >= q.pY) || (py+70 >= q.pY && py+70 <= q.pY+70))){
+                        alert("Perdesse, chegasse ate a rodada: "+quadrados.length)
+                        reset()
+                    }
+                }
+
+                
+
+                context.fillStyle = ""
+                context.drawImage(vasco, px, py, 70, 70)
+            }
+        }
+
+        
+
+        class quadrado{
+            constructor(lado, _px, _py){
+                this.pX = _px;
+                this.pY = _py;
+                this.lado = lado;
+            }
+
+            update(){
+                if(this.pX > px)
+                    this.pX-=velocidade;
+                else if(this.pX < px)
+                    this.pX += velocidade;
+                if(this.pY > py)
+                    this.pY -= velocidade;
+                else if(this.pY < py)
+                    this.pY += velocidade
+            }
+        }
+    </script>
+
+</html>
