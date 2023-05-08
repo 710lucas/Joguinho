@@ -29,6 +29,8 @@
         var quadrados = []
         var rodadas = 0
         var velocidade = 2
+        var fator = 0
+        var pontuacao = 0
 
         function reset(){
             quadrados = []
@@ -51,13 +53,15 @@
         }
 
         function draw(){
+
+            
             rodadas+=1;
             console.log(rodadas)
-            if(rodadas == 100){
+            if(rodadas == 70 - fator){
                 quadrados.push(new quadrado(100, Math.floor(Math.random()*canvas.width), Math.floor(Math.random()*canvas.height)))
                 
                 rodadas = 0
-                velocidade += 0.1
+                velocidade += 0.3
             }
             console.log(quadrados.length)
             
@@ -67,8 +71,20 @@
             var vasco = new Image()
             vasco.src="https://static.vasco.com.br/wp-content/uploads/2021/09/ESCUDO-VASCO-RGB.png"
             if(canvas.getContext){
+                if(quadrados.length >= 5){
+                    alert("Perdesse!\nPontuacao = "+pontuacao)
+                    reset()
+                }
                 var context = canvas.getContext('2d')
                 context.fillStyle = "white"
+                var objetosDeletar = []
+                context.font = "48px serif"
+                var texto = "Nao deixe mais de 5 flamenguistas na tela!!!"
+                context.fillText(texto, (canvas.width/2)-(48*texto.length)/3, 60)
+                context.fillStyle = "green"
+                context.fillText(pontuacao+" pontos", 10, 60)
+                context.fillStyle = "red"
+                context.fillText(quadrados.length+" flamenguistas na tela", canvas.width-600, 60)
                 
                 for(var i = 0; i<quadrados.length; i++){
                     var q = quadrados[i]
@@ -78,12 +94,18 @@
                     console.log("AAAAAAAAAAAAAAAAAA"+q._px)
                     if(((px >= q.pX && px <= q.pX+70) || (px+70 >=  q.pX && px+70 <= q.pX))
                     &&  ((py <= q.pY+70 && py >= q.pY) || (py+70 >= q.pY && py+70 <= q.pY+70))){
-                        alert("Perdesse, chegasse ate a rodada: "+quadrados.length)
-                        reset()
+                        objetosDeletar.push(i)
+                        pontuacao++
+                        if(pontuacao%5 == 0){
+                            fator+=1
+                        }
                     }
                 }
 
-                
+                for(var i = 0; i<objetosDeletar.length; i++){
+                    quadrados.splice(objetosDeletar[i], 1)
+                }
+
 
                 context.fillStyle = ""
                 context.drawImage(vasco, px, py, 70, 70)
@@ -100,14 +122,14 @@
             }
 
             update(){
-                if(this.pX > px)
-                    this.pX-=velocidade;
-                else if(this.pX < px)
-                    this.pX += velocidade;
-                if(this.pY > py)
-                    this.pY -= velocidade;
-                else if(this.pY < py)
-                    this.pY += velocidade
+                if(this.pX > px && this.pX+velocidade+70 < canvas.width)
+                    this.pX+=velocidade;
+                else if(this.pX < px && this.pX+velocidade > 0)
+                    this.pX -= velocidade;
+                if(this.pY > py && this.pY+velocidade+70 < canvas.height)
+                    this.pY += velocidade;
+                else if(this.pY < py && this.pY+velocidade-20 > 0)
+                    this.pY -= velocidade
             }
         }
     </script>
