@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 
+
+
     <head>
         <title>joguinho</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
 
     <body style="background-color: black;">
@@ -79,13 +82,20 @@
                 var context = canvas.getContext('2d')
                 context.fillStyle = "white"
                 var objetosDeletar = []
-                context.font = "48px serif"
+                if(canvas.width > 800)
+                    context.font = "48px serif"
+                else
+                    context.font = "16px serif"
+
                 var texto = "Nao deixe mais de 5 flamenguistas na tela!!!"
-                context.fillText(texto, (canvas.width/2)-(48*texto.length)/3, 60)
+                context.fillText(texto, canvas.width/3, 60)
                 context.fillStyle = "green"
-                context.fillText(pontuacao+" pontos", 10, 60)
+                context.fillText(pontuacao+" pontos", 10, 100)
                 context.fillStyle = "red"
-                context.fillText(quadrados.length+" flamenguistas na tela", canvas.width-600, 60)
+                if(canvas.width > 600)
+                    context.fillText(quadrados.length+" flamenguistas na tela", canvas.width-600, 120)
+                else
+                    context.fillText(quadrados.length+" flamenguistas na tela", canvas.width-300, 120)
                 
                 for(var i = 0; i<quadrados.length; i++){
                     var q = quadrados[i]
